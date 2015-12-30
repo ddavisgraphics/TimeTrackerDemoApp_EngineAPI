@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    ## recursively search parent dir
+    # if index.php is not found then
+    # forward to the parent directory of current URI
+    RewriteCond %{DOCUMENT_ROOT}/$1$2/index.php !-f
+    RewriteRule ^(.*?)([^/]+)/[^/]+/?$ /$1$2/ [L]
+
+    # if current index.php is found in parent dir then load it
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{DOCUMENT_ROOT}/$1/index.php -f
+    RewriteRule ^(.*?)[^/]+/?$ /$1/index.php [L]
+
+</IfModule>
